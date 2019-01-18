@@ -61,7 +61,7 @@ void swap(int *A,int n, int m) {
 	A[n] = A[m];
 	A[m] = temp;
 }
-//排列的生成递归算法
+//排列的生成的递归算法
 void Rec_Class::perm(int A[], int k, int n)
 {
 	if (k > 1) {

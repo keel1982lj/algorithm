@@ -1,5 +1,5 @@
 #pragma once
-class Rec_Class
+class Rec_Class   //µÝ¹éËã·¨µÄÀà
 {
 public:
 	Rec_Class();
