@@ -69,10 +69,13 @@ void Rec_Class::perm(int A[], int k, int n)
 		for (int i = 0; i < n; i++) {
 			cout << A[i] << "  ";
 		}
+		cout << endl;
 	}
 	else {
 		for (int i = n - k; i < n; i++) {
-			
+			swap(A[i], A[n - k]);
+			perm(A, k - 1, n);
+			swap(A[i], A[n - k]);
 		}
 	}
 }
