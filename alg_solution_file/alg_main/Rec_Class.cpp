@@ -2,6 +2,7 @@
 #include "Rec_Class.h"
 #include <iostream>
 
+using namespace std;
 int Rec_Class::count = 0;
 
 Rec_Class::Rec_Class()
@@ -60,20 +61,18 @@ void swap(int *A,int n, int m) {
 	int temp = A[n];
 	A[n] = A[m];
 	A[m] = temp;
-}
+}                                                                                                                                                                                                                                                                                                                                                                                                                                 
 //排列的生成的递归算法
 void Rec_Class::perm(int A[], int k, int n)
 {
-	if (k > 1) {
-		perm(A, k - 1, n);
-		for (int i = k - 1; i > 0; i--) {
-			swap(A, i, i - 1);
-			for (int j = 0; j < n; j++) std::cout << A[j];
-			std::cout << std::endl; count++;
+	if (k == 1) {
+		for (int i = 0; i < n; i++) {
+			cout << A[i] << "  ";
 		}
 	}
-	else if (k == 1) {
-		for (int j = 0; j < n; j++) std::cout << A[j];
-		std::cout << std::endl; count++;
+	else {
+		for (int i = n - k; i < n; i++) {
+			
+		}
 	}
 }
