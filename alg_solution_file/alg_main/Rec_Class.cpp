@@ -14,6 +14,12 @@ Rec_Class::~Rec_Class()
 {
 }
 
+//辅助方法
+void Rec_Class::print(int A[], int n) {
+	for (int i = 0; i < n; i++)
+		cout << A[i] << " ";
+}
+
 //递归计算阶乘
 int Rec_Class::factorial(int n) {
 	if (n == 0)return 1;
@@ -66,9 +72,9 @@ void swap(int *A,int n, int m) {
 void Rec_Class::perm(int A[], int k, int n)
 {
 	if (k == 1) {
-		for (int i = 0; i < n; i++) {
+		/*for (int i = 0; i < n; i++) {
 			cout << A[i] << "  ";
-		}
+		}*/
 		cout << endl;
 	}
 	else {
@@ -76,6 +82,117 @@ void Rec_Class::perm(int A[], int k, int n)
 			swap(A[i], A[n - k]);
 			perm(A, k - 1, n);
 			swap(A[i], A[n - k]);
+			for (int i = 0; i < n; i++) {
+			cout << A[i] << "  ";
+			}
 		}
 	}
 }
+
+//分治法求最大最小
+void Rec_Class::max_min(int A[], int & e_max, int & e_min, int low, int high)
+{
+	if ((high - low )<= 1) {
+		if (A[high] > A[low]) {
+			e_max = A[high];
+			e_min = A[low];
+		}
+		else {
+			e_max = A[low];
+			e_min = A[high];
+		}
+	}
+	else {
+		int min1, min2, max1, max2;
+		max_min(A, max1, min1, low, (low + high) / 2);
+		max_min(A, max2, min2, (low + high) / 2 + 1, high);
+		if (min1 < min2)
+			e_min = min1;
+		else
+			e_min = min2;
+
+		if (max2 > max1)
+			e_max = max2;
+		else
+			e_max = max1;
+	}
+}
+
+//快速排序
+void Rec_Class::quick_sort(int A[], int low, int high)
+{
+	if ((high - low) >= 1) {
+		int low_r = low, high_r = high;
+		int temp = A[low];
+		while (low < high) {
+			while (A[high] >= temp && low < high)
+				high--;
+			if (low >= high) break;
+			A[low] = A[high];
+
+			while (A[low] < temp&&low < high)
+				low++;
+			if (low >= high) break;
+			A[high] = A[low];
+		}				//划分
+		A[low] = temp;     
+		//递归排序
+		quick_sort(A, low_r, low-1);
+		quick_sort(A, low + 1, high_r);
+	}
+}
+
+///多项式乘积的分治算法
+//系数只有两项时，直接乘：
+void product(int p[], int q[], int r[]) {
+	r[2] = p[1] * q[1];
+	r[0] = p[0] * q[0];
+	r[1] = (p[0] + p[1])*(q[0] + q[1]) - r[2] - r[0];
+}
+
+//加法，n个系数
+void Plus(int p[], int q[], int r[],int n) {
+	for (int i = 0; i < n; i++) 
+		r[i] = p[i] + q[i];
+}
+
+//减法，n个系数,"p-q"
+void mins(int p[], int q[], int r[], int n) {
+	for (int i = 0; i < n; i++)
+		r[i] = p[i] - q[i]; 
+}
+
+//乘以x的k次方，移位操作
+
+void Rec_Class::poly_product(int p[], int q[], int r0[], int n)
+{
+	int *r1, *r2, *r3, *r4;
+	r1 = new int[2 * n - 1];
+	r2 = new int[2 * n - 1];
+	r3 = new int[2 * n - 1];
+	r4 = new int[2 * n - 1];
+	for (int i = 0; i < 2 * n - 1; i++) {
+		r0[i] = 0;
+		r1[i] = 0;
+		r2[i] = 0;
+		r3[i] = 0;
+		r4[i] = 0;
+	}//初始化数组
+
+	if (n == 2)
+		product(p, q, r0);
+	else {
+		int k = n / 2;
+		poly_product(p, q, r0+2*k, k);
+		poly_product(p+k, q+k, r1, k);
+		Plus(p, p + k, r2+2*k, k);
+		Plus(q, q + k, r3+2*k, k);
+		poly_product(r2 + 2 * k, r3 + 2 * k, r4 + k, k);
+		mins(r4, r0, r4,4 * k-1);
+		mins(r4, r1, r4, 4 * k-1);
+		Plus(r0, r4, r0, 4 * k-1);
+		Plus(r0, r1, r0, 4 * k - 1);
+	}
+
+}
+
