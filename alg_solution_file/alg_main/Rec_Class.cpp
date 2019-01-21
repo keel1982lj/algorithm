@@ -142,7 +142,7 @@ void Rec_Class::quick_sort(int A[], int low, int high)
 	}
 }
 
-///多项式乘积的分治算法
+///多项式乘积的分治算法  该算法只能计算n项系数的两个多项式相乘，n=2^k，如果不是n项多项式可以增加0系数项。
 //系数只有两项时，直接乘：
 void product(int p[], int q[], int r[]) {
 	r[2] = p[1] * q[1];
@@ -157,13 +157,13 @@ void Plus(int p[], int q[], int r[],int n) {
 }
 
 //减法，n个系数,"p-q"
-void mins(int p[], int q[], int r[], int n) {
+void mins(int p[], int q[], int n) {
 	for (int i = 0; i < n; i++)
-		r[i] = p[i] - q[i]; 
+		p[i] = p[i] - q[i]; 
 }
 
-//通过移位，实现乘以x^k
-void multi(int p[], int n, int k) {
+//通过移位，实现乘以x^k,   会溢出
+void multi(int p[], int k, int n) {
 	for (int i = 0; i < n - k; i++)
 		p[i] = p[i + k];
 	for (int i = n - k; i < n; i++) 
@@ -189,17 +189,19 @@ void Rec_Class::poly_product(int p[], int q[], int r0[], int n)
 		product(p, q, r0);
 	else {
 		int k = n / 2;
-		poly_product(p, q, r0 + 2 * k, k);    //计算r0 = p0 * q0   最高位为2*k-1
-		poly_product(p + k, q + k, r1+2*k, k);   //计算r1 = p1 * q1   最高位为2*k-1
+		poly_product(p, q, r1 + 2 * k, k);    //计算r1 = p0 * q0   最高位为2*k-1  （p0，q0指的是将多项式降次排列的前一半系数）
+		poly_product(p + k, q + k, r0 + 2 * k, k);   //计算r0 = p1 * q1   最高位为2*k-1  （p1，q1指的是后一半系数）
 		Plus(p, p + k, r2 + 3 * k - 1, k);    //计算r2 = p0+p1   最高位为 k-1
 		Plus(q, q + k, r3 + 3 * k - 1, k);    //计算r3 = q0+q1   最高位为 k-1
-		poly_product(r2 + 3 * k - 1, r3 + 3 * k - 1, r4 + 2*k, k);    //计算r4 = r2 * r3    最高位为2*k-1
-		mins(r4, r0, r4, 4 * k - 1);     
-		mins(r4, r1, r4, 4 * k - 1);     //r4 = r4 - r0 - r1
-		multi(r4, 2 * n - 1, k);   //r4 = r4 * x^k
-		multi(r1, 2 * n - 1, 2 * k);   //r1 = r1 * x^n
+		poly_product(r2 + 3 * k - 1, r3 + 3 * k - 1, r4 + 2 * k, k);    //计算r4 = r2 * r3    最高位为2*k-1
+
+		//结果=r0 + (r4-r0-r1)*x^k + r1 * x^n
+		mins(r4, r0, 4 * k - 1);
+		mins(r4, r1, 4 * k - 1);     //r4 = r4 - r0 - r1    最高位为2*k-1
+		multi(r4, k, 2 * n - 1);   //r4 = r4 * x^k   最高位为3*k-1
+		multi(r1, 2 * k, 2 * n - 1);   //r1 = r1 * x^n    最高位为2*n-1
 		Plus(r0, r4, r0, 4 * k - 1);     //r0 + r4 
-		Plus(r0, r1, r0, 4 * k - 1);
+		Plus(r0, r1, r0, 4 * k - 1);     //     
 	}
 
 }
