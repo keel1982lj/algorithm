@@ -162,7 +162,13 @@ void mins(int p[], int q[], int r[], int n) {
 		r[i] = p[i] - q[i]; 
 }
 
-//乘以x的k次方，移位操作
+//通过移位，实现乘以x^k
+void multi(int p[], int n, int k) {
+	for (int i = 0; i < n - k; i++)
+		p[i] = p[i + k];
+	for (int i = n - k; i < n; i++) 
+		p[i] = 0;
+}
 
 void Rec_Class::poly_product(int p[], int q[], int r0[], int n)
 {
@@ -183,16 +189,26 @@ void Rec_Class::poly_product(int p[], int q[], int r0[], int n)
 		product(p, q, r0);
 	else {
 		int k = n / 2;
-		poly_product(p, q, r0+2*k, k);
-		poly_product(p+k, q+k, r1, k);
-		Plus(p, p + k, r2+2*k, k);
-		Plus(q, q + k, r3+2*k, k);
-		poly_product(r2 + 2 * k, r3 + 2 * k, r4 + k, k);
-		mins(r4, r0, r4,4 * k-1);
-		mins(r4, r1, r4, 4 * k-1);
-		Plus(r0, r4, r0, 4 * k-1);
+		poly_product(p, q, r0 + 2 * k, k);    //计算r0 = p0 * q0   最高位为2*k-1
+		poly_product(p + k, q + k, r1+2*k, k);   //计算r1 = p1 * q1   最高位为2*k-1
+		Plus(p, p + k, r2 + 3 * k - 1, k);    //计算r2 = p0+p1   最高位为 k-1
+		Plus(q, q + k, r3 + 3 * k - 1, k);    //计算r3 = q0+q1   最高位为 k-1
+		poly_product(r2 + 3 * k - 1, r3 + 3 * k - 1, r4 + 2*k, k);    //计算r4 = r2 * r3    最高位为2*k-1
+		mins(r4, r0, r4, 4 * k - 1);     
+		mins(r4, r1, r4, 4 * k - 1);     //r4 = r4 - r0 - r1
+		multi(r4, 2 * n - 1, k);   //r4 = r4 * x^k
+		multi(r1, 2 * n - 1, 2 * k);   //r1 = r1 * x^n
+		Plus(r0, r4, r0, 4 * k - 1);     //r0 + r4 
 		Plus(r0, r1, r0, 4 * k - 1);
 	}
 
+}
+
+//分治法求平面点集中最近点问题；X为点集；n为个数；a，b为两个最近的点；d为距离
+void Rec_Class::closest_pair(Point X[], int n, Point & a, Point & b, float & d)
+{
+	if (n == 2) {
+
+	}
 }
 
