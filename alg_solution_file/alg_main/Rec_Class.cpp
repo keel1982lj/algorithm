@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Rec_Class.h"
 #include <iostream>
+#include <math.h>
 
 using namespace std;
 int Rec_Class::count = 0;
@@ -206,11 +207,94 @@ void Rec_Class::poly_product(int p[], int q[], int r0[], int n)
 
 }
 
+
+//计算两点之间的距离
+float Rec_Class::dist(Point &a, Point &b) {
+	return sqrt(pow(a.x - b.x, 2) + pow(a.y - b.y,2));
+}
 //分治法求平面点集中最近点问题；X为点集；n为个数；a，b为两个最近的点；d为距离
 void Rec_Class::closest_pair(Point X[], int n, Point & a, Point & b, float & d)
-{
+{ 
 	if (n == 2) {
+		a = X[0]; b = X[1];
+		d = dist(a, b);
+	}
+	else if (n == 3) {
+		if (dist(X[0], X[1]) > dist(X[1], X[2])) {
+			a = X[0]; b = X[1]; d = dist(X[0], X[1]);
+		}
+		else {
+			a = X[1]; b = X[0]; d = dist(X[1], X[2]);
+		}
+	}
+	else if (n > 3) {
+		Point *X_select = new Point[n];
+		Point a1, a2,a3, b1, b2,b3;
+		float d1, d2,d3, dmin,xmid;//dmin是两边最近点取一个最小值；xmid指的是中线划分的位置
+		int count = 0;
 
+		closest_pair(X, n / 2, a1, b1, d1);
+		closest_pair(X + n / 2, n - n / 2, a2, b2, d2);
+		if (d1 > d2) {
+			a = a2; b = b2; dmin = d2;
+		}
+		else {
+			a = a1; b = b1; dmin = d1;
+		}
+		xmid = (X[n / 2].x + X[n / 2 + 1].x) / 2;
+
+		for (int i = 0; i < n; i++) {
+			if (abs(X[i].x - xmid) <= dmin) 
+				X_select[count++] = X[i];
+		}  //遍历，将小于dmin的选出来
+		closest_pair(X_select, count + 1, a3, b3, d3);
+		if (d3 < dmin) {
+			a = a3; b = b3; d = d3;
+		}
+		else {
+			d = dmin;
+		}
 	}
 }
+
+
+//辅助函数，计算5个数的中位数  
+int mid(int *A) {
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 5-i; j++) {
+			if (A[j] > A[j + 1])swap(A, j, j + 1);
+		}
+	}
+	return A[2];
+}
+//n个元素的数组A，选择第K小元素
+int Rec_Class::select(int A[], int n, int k)
+{
+	if (n >= 38) {
+		int *M = new int(n / 5);
+		int *P = new int(3 * n / 4);
+		int *Q = new int(3 * n / 4);
+		int *R = new int(3 * n / 4);
+		int countM = 0, countP = 0, countQ = 0, countR = 0, m = 0;
+		for (int i = 0; i < n; i += 5) {
+			M[countM] = mid(A);
+		}
+		m = select(M, countM, countM / 2+ countM%2);//取得中位数
+		for (int i = 0; i < n; i++) {
+			if (A[i] > m) P[countP++] = A[i];
+			else if (A[i] == m) Q[countQ++] = A[i];
+			else R[countR++] = A[i];
+		}
+		if (k <= countP)return P[k - 1];
+		else if (k > countP&&k <= countP + countQ) return m;
+		else return select(R, countR, k - countP - countQ);
+	}
+	else {
+		//直接排序 调用前面鞋的
+		insert_sort_rec(A, n);
+		return A[k - 1];
+	}
+
+}
+
 
