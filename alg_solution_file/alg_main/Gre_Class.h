@@ -10,6 +10,7 @@ public:
 		float w;//物体的重量
 		float v;//物体的价值重量比
 	}Object;
+	static void sort_v(Object instance[], int n);//辅助函数，按照Object.v排列Object
 	static float knapsack_greedy(float M, Object instance[], float X[], int n); //贪婪法求解背包问题
 };
 
