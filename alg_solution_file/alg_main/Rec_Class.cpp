@@ -261,7 +261,7 @@ void Rec_Class::closest_pair(Point X[], int n, Point & a, Point & b, float & d)
 //辅助函数，计算5个数的中位数  
 int mid(int *A) {
 	for (int i = 0; i < 3; i++) {
-		for (int j = 0; j < 5-i; j++) {
+		for (int j = 0; j < 4-i; j++) {
 			if (A[j] > A[j + 1])swap(A, j, j + 1);
 		}
 	}
@@ -270,27 +270,27 @@ int mid(int *A) {
 //n个元素的数组A，选择第K小元素
 int Rec_Class::select(int A[], int n, int k)
 {
-	if (n >= 38) {
-		int *M = new int(n / 5);
-		int *P = new int(3 * n / 4);
-		int *Q = new int(3 * n / 4);
-		int *R = new int(3 * n / 4);
+	if (n >= 6) {
+		int *M = new int[n / 5];
+		int *P = new int[3 * n / 4];
+		int *Q = new int[3 * n / 4];
+		int *R = new int[3 * n / 4];
 		int countM = 0, countP = 0, countQ = 0, countR = 0, m = 0;
-		for (int i = 0; i < n; i += 5) {
-			M[countM] = mid(A);
+		for (int i = 0; i+5 < n; i += 5) {
+			M[countM++] = mid(A+i);
 		}
 		m = select(M, countM, countM / 2+ countM%2);//取得中位数
 		for (int i = 0; i < n; i++) {
-			if (A[i] > m) P[countP++] = A[i];
+			if (A[i] < m) P[countP++] = A[i];
 			else if (A[i] == m) Q[countQ++] = A[i];
 			else R[countR++] = A[i];
 		}
-		if (k <= countP)return P[k - 1];
-		else if (k > countP&&k <= countP + countQ) return m;
+		if (k < countP)return select(P, countP, k);
+		else if (k > countP && k < countP + countQ) return m;
 		else return select(R, countR, k - countP - countQ);
 	}
 	else {
-		//直接排序 调用前面鞋的
+		//直接排序 调用前面写的
 		insert_sort_rec(A, n);
 		return A[k - 1];
 	}
