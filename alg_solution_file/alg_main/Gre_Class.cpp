@@ -25,6 +25,7 @@ void Gre_Class::sort_v(Object A[], int n) {
 	}
 }
 
+//贪心算法，解决背包问题
 float Gre_Class::knapsack_greedy(float M, Object instance[], float X[], int n)
 {
 	for (int i = 0; i < n; i++) {
@@ -45,3 +46,4 @@ float Gre_Class::knapsack_greedy(float M, Object instance[], float X[], int n)
 		}
 	}
 }
+ 
