@@ -27,10 +27,10 @@
     <ClInclude Include="Gre_Class.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="SVM.h">
+    <ClInclude Include="matrix.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="matrix.h">
+    <ClInclude Include="SVM.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -41,13 +41,16 @@
     <ClCompile Include="alg_main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Rec_Class.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Gre_Class.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="matrix.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Rec_Class.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="svm_main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

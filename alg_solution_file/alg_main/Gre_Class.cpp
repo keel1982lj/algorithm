@@ -45,5 +45,7 @@ float Gre_Class::knapsack_greedy(float M, Object instance[], float X[], int n)
 			break;
 		}
 	}
+
+	return 0;   
 }
  
