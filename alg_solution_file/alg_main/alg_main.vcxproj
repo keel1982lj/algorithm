@@ -149,7 +149,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Gre_Class.h" />
-    <ClInclude Include="matrix.h" />
+    <ClInclude Include="matrix_fpbp.h" />
     <ClInclude Include="Rec_Class.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="SVM.h" />

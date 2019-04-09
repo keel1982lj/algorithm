@@ -27,10 +27,10 @@
     <ClInclude Include="Gre_Class.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="matrix.h">
+    <ClInclude Include="SVM.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="SVM.h">
+    <ClInclude Include="matrix_fpbp.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
