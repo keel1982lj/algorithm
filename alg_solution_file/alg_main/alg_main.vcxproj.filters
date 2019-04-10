@@ -44,13 +44,16 @@
     <ClCompile Include="Gre_Class.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="matrix.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Rec_Class.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="svm_main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SVM.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="matrix_fpbp.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

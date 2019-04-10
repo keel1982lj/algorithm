@@ -158,7 +158,7 @@
   <ItemGroup>
     <ClCompile Include="alg_main.cpp" />
     <ClCompile Include="Gre_Class.cpp" />
-    <ClCompile Include="matrix.cpp" />
+    <ClCompile Include="matrix_fpbp.cpp" />
     <ClCompile Include="Rec_Class.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -166,6 +166,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="SVM.cpp" />
     <ClCompile Include="svm_main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

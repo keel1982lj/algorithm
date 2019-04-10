@@ -4,7 +4,7 @@
 分离超平面：W'·x+b=0
 分类决策函数：f(x)=sign(W'·x+b)
 */
-class svm_Class
+class SVM_Cla
 {
 private:
 	int sampleNum;  //样本数
@@ -14,8 +14,21 @@ private:
 	double *alpha;  //超参数
 	double b;
 	double *gx;
-public:
-	svm_Class();
-	~svm_Class();
 
-}
+	double s_max(double, double);
+	double s_min(double, double);
+	int secondAlpha(int);
+	void computeGx();
+	double kernel(int, int);
+	void update(int, int, double, double);
+	bool isConvergence();
+	bool takeStep(int, int);
+public:
+	~SVM_Cla();
+	//初始化数据
+	void initialize(double *, double *, int, int);
+	void SMO();
+	double objFun(int);
+	void show();
+};
+
