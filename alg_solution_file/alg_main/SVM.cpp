@@ -28,3 +28,30 @@ void SVM_Cla::initialize(double *d, double *l, int sn, int fn)
 	alpha = new double[sampleNum] {0};
 	gx = new double[sampleNum] {0};
 }
+
+double SVM_Cla::s_max(double a, double b) {
+	return a > b ? a : b;
+}
+double SVM_Cla::s_min(double a, double b) {
+	return a > b ? b : a;
+}
+
+double SVM_Cla::objFun(int x) {
+	int j = 0;
+	//选择一个0<alpha[j]<C
+	for (int i = 0; i < sampleNum; i++) {
+		if (alpha[i] > 0 && alpha[i] < a) {
+			j = i;
+			break;
+		}
+	}
+	//计算b
+	double b = lable[j];
+	for (int i = 0; i < sampleNum; i++)
+		b -= alpha[i] * lable[i] * kernel(i, j);
+	//构造决策函数
+	double objf = b;
+	for (int i = 0; i < sampleNum; i++)
+		objf += alpha[i] * lable[i] * kernel(x, i);
+	return objf;
+}
